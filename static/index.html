@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dynamic Commerce</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#products">Skip to products</a>
+
+    <main id="auth-screen" class="auth-screen">
+      <section class="auth-panel" aria-labelledby="auth-title">
+        <p class="eyebrow">Dynamic Commerce</p>
+        <h1 id="auth-title">Sign in before shopping.</h1>
+        <p>Use the admin account to add products, or register as a customer to shop with dynamic rupee pricing.</p>
+
+        <div class="auth-switch" role="tablist" aria-label="Account actions">
+          <button id="show-login" class="active" type="button">Sign in</button>
+          <button id="show-register" type="button">Register</button>
+        </div>
+
+        <form id="login-form" class="auth-form">
+          <label>
+            Email
+            <input name="email" type="email" value="admin@example.com" autocomplete="email" required />
+          </label>
+          <label>
+            Password
+            <input name="password" type="password" value="Ashish@25....." autocomplete="current-password" required />
+          </label>
+          <button class="primary-button" type="submit">Sign in</button>
+        </form>
+
+        <form id="register-form" class="auth-form hidden">
+          <label>
+            Name
+            <input name="name" type="text" autocomplete="name" required />
+          </label>
+          <label>
+            Email
+            <input name="email" type="email" autocomplete="email" required />
+          </label>
+          <label>
+            Password
+            <input name="password" type="password" autocomplete="new-password" minlength="6" required />
+          </label>
+          <button class="primary-button" type="submit">Create account</button>
+        </form>
+
+        <p id="auth-status" role="status"></p>
+        <div class="demo-accounts">
+          <strong>Demo accounts</strong>
+          <span>Admin: admin@example.com / Ashish@25.....</span>
+          <span>User: user@example.com / User@12345</span>
+        </div>
+      </section>
+    </main>
+
+    <div id="app-screen" class="hidden">
+      <header class="site-header">
+        <nav class="nav" aria-label="Main navigation">
+          <div>
+            <p class="eyebrow">Dynamic Commerce</p>
+            <h1>Shop prices that respond to demand, stock, and loyalty.</h1>
+            <p id="session-label" class="session-label"></p>
+          </div>
+          <div class="nav-actions">
+            <button id="logout" class="ghost-button" type="button">Logout</button>
+            <button class="cart-toggle" type="button" aria-controls="cart-panel">
+              Cart <span id="cart-count">0</span>
+            </button>
+          </div>
+        </nav>
+        <section class="hero" aria-label="Store highlights">
+          <div>
+            <p>Real-time pricing keeps fast-moving products competitive while rewarding loyal shoppers with smarter offers.</p>
+            <form class="search-bar" role="search">
+              <label for="search">Search products</label>
+              <input id="search" name="search" type="search" placeholder="Search shoes, backpacks, chairs..." autocomplete="off" />
+            </form>
+          </div>
+          <div class="metric-grid" aria-label="Pricing signals">
+            <div>
+              <strong id="metric-demand">Live</strong>
+              <span>Demand signals</span>
+            </div>
+            <div>
+              <strong id="metric-stock">Smart</strong>
+              <span>Stock protection</span>
+            </div>
+            <div>
+              <strong id="metric-loyalty">Fair</strong>
+              <span>Loyalty discounts</span>
+            </div>
+          </div>
+        </section>
+      </header>
+
+      <main>
+        <section class="account-panel" aria-labelledby="account-title">
+          <div>
+            <p class="eyebrow">Active account</p>
+            <h2 id="account-title">Account details</h2>
+          </div>
+          <div class="account-grid">
+            <div>
+              <span>Name</span>
+              <strong id="account-name">-</strong>
+            </div>
+            <div>
+              <span>Email</span>
+              <strong id="account-email">-</strong>
+            </div>
+            <div>
+              <span>Role</span>
+              <strong id="account-role">-</strong>
+            </div>
+          </div>
+        </section>
+
+        <section id="admin-panel" class="admin-panel hidden" aria-labelledby="admin-title">
+          <div>
+            <p class="eyebrow">Admin tools</p>
+            <h2 id="admin-title">Add a product</h2>
+          </div>
+          <form id="product-form" class="product-form">
+            <input name="product_id" type="hidden" />
+            <label>
+              Product name
+              <input name="name" type="text" placeholder="Premium Laptop Stand" required />
+            </label>
+            <label>
+              Category
+              <input name="category" type="text" list="category-options" placeholder="Shoes, Backpacks, Headsets..." required />
+            </label>
+            <label>
+              Price in rupees
+              <input name="base_price" type="number" min="1" step="1" placeholder="2499" required />
+            </label>
+            <label>
+              Stock
+              <input name="stock" type="number" min="0" step="1" placeholder="25" required />
+            </label>
+            <label>
+              Max stock
+              <input name="max_stock" type="number" min="1" step="1" placeholder="80" required />
+            </label>
+            <label>
+              Rating
+              <input name="rating" type="number" min="1" max="5" step="0.1" value="4.5" required />
+            </label>
+            <label class="wide-field">
+              Image URL
+              <input name="image_url" type="url" placeholder="https://images.unsplash.com/..." />
+            </label>
+            <label class="wide-field">
+              Description
+              <textarea name="description" rows="3" placeholder="Short product description" required></textarea>
+            </label>
+            <div class="form-actions wide-field">
+              <button id="product-submit" class="primary-button" type="submit">Add product</button>
+              <button id="cancel-edit" class="ghost-button hidden" type="button">Cancel edit</button>
+            </div>
+          </form>
+          <p id="product-status" role="status"></p>
+          <article id="updated-product" class="updated-product hidden" aria-live="polite"></article>
+          <datalist id="category-options"></datalist>
+        </section>
+
+        <section class="toolbar" aria-label="Product filters">
+          <div>
+            <h2 id="products">Products</h2>
+            <p id="result-count" aria-live="polite">Loading products...</p>
+          </div>
+          <label>
+            Category
+            <select id="category"></select>
+          </label>
+        </section>
+
+        <section id="product-grid" class="product-grid" aria-live="polite"></section>
+      </main>
+
+      <aside id="cart-panel" class="cart-panel" aria-label="Shopping cart">
+        <div class="cart-header">
+          <h2>Your cart</h2>
+          <button class="icon-button cart-close" type="button" aria-label="Close cart">x</button>
+        </div>
+        <div id="cart-items" class="cart-items"></div>
+        <div class="checkout-box">
+          <div class="total-row">
+            <span>Total</span>
+            <strong id="cart-total">0</strong>
+          </div>
+          <form id="payment-form" class="payment-form">
+            <fieldset>
+              <legend>Delivery address</legend>
+              <label>
+                Full address
+                <textarea id="shipping-address" name="shipping_address" rows="3" placeholder="House no, street, area" required></textarea>
+              </label>
+              <label>
+                City
+                <input id="shipping-city" name="shipping_city" type="text" placeholder="Mumbai" required />
+              </label>
+              <label>
+                Pincode
+                <input id="shipping-pincode" name="shipping_pincode" type="text" inputmode="numeric" placeholder="400001" required />
+              </label>
+            </fieldset>
+            <fieldset>
+              <legend>Payment gateway</legend>
+              <label>
+                Payment method
+                <select id="payment-method" name="payment_method">
+                  <option value="upi">UPI</option>
+                  <option value="card">Card</option>
+                  <option value="wallet">Wallet</option>
+                  <option value="cod">Cash on delivery</option>
+                </select>
+              </label>
+              <div class="payment-note">
+                <strong id="payment-title">UPI demo payment</strong>
+                <span id="payment-description">A test UPI transaction will be generated. No real money is charged.</span>
+              </div>
+            </fieldset>
+            <button id="checkout" class="primary-button" type="submit">Pay and place order</button>
+          </form>
+          <p id="checkout-status" role="status"></p>
+        </div>
+      </aside>
+    </div>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script src="/static/app.js?v=address-payment-gateway"></script>
+  </body>
+</html>

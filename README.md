@@ -1,4 +1,3 @@
-# Dynamic-Pricing-for-E-commerce-Website
 # E-commerce Platform with Dynamic Pricing
 
 A lightweight Python-backed e-commerce demo where product prices adjust using stock, demand, and user behavior signals. The backend uses only Python standard library modules, so the project is easy to run without dependency installation.
